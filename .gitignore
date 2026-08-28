@@ -1,0 +1,9 @@
+.vscode
+
+*.exe
+*.ilk
+*.obj
+*.pdb
+
+private
+bin
