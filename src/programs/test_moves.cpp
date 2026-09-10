@@ -7,4 +7,7 @@ int main() {
 
     Board start_board;
     start_board.print();
+
+    Move e4(4, 1, 4, 3);
+    start_board.print_move(e4);
 }

@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <stdexcept>
+#include <cmath>
 
 #include "chess/move.hpp"
 
@@ -14,6 +16,8 @@ class Board {
     std::array<int, 2> enpassant_rights;
     int side_to_move;
     std::vector<int> hashes_since_pushcap;
+
+    std::string fileletters = "abcdefgh";
 
     public:
     Board() {
@@ -42,16 +46,38 @@ class Board {
         }
     }
 
+    Board(
+        std::array<std::array<int, 8>, 8>& in_squares,
+        std::array<std::array<bool, 2>, 2>& in_castling_rights,
+        std::array<int, 2>& in_enpassant_rights,
+        int in_side_to_move,
+        std::vector<int>& in_hashes_since_pushcap
+    ) {
+        squares = in_squares;
+        castling_rights = in_castling_rights;
+        enpassant_rights = in_enpassant_rights;
+        side_to_move = in_side_to_move;
+        hashes_since_pushcap = in_hashes_since_pushcap;
+    }
+
     Board(std::string fen) {
         // TODO: Position from FEN
     }
 
     Board copy() {
+        Board new_board(squares, castling_rights, enpassant_rights, side_to_move, hashes_since_pushcap);
+        return new_board;
     }
 
-    Board apply_move() {
-        Board new_board = copy();
-        return new_board;
+    bool is_legal(Move& move) {
+        throw std::invalid_argument("Legal move checking not implemented");
+        return true;
+    }
+
+    void apply_move(Move& move, bool trusting=true) {
+        if (!trusting && !is_legal(move)) {
+            throw std::invalid_argument("Illegal move");
+        }
     }
 
     std::string to_fen() {
@@ -110,6 +136,28 @@ class Board {
     }
 
     void print_move(Move& move) {
-        // TODO
+        switch(std::abs(squares[move.start_file][move.start_rank])) {
+            case 1:
+                std::cout << "Pawn";
+                break;
+            case 2:
+                std::cout << "Knight";
+                break;
+            case 3:
+                std::cout << "Bishop";
+                break;
+            case 4:
+                std::cout << "Rook";
+                break;
+            case 5:
+                std::cout << "Queen";
+                break;
+            case 6:
+                std::cout << "King";
+                break;
+            default:
+                std::cout << "Unknown";
+        }
+        std::cout << " from " << fileletters.at(move.start_file) << move.start_rank + 1 << " to " << fileletters.at(move.end_file) << move.end_rank + 1;
     }
 };
