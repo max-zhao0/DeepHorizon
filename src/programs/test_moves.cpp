@@ -1,13 +1,13 @@
 #include <windows.h>
 
-#include "chess/board.hpp"
+#include "chess/SmartBoard.hpp"
 
 int main() {
     SetConsoleOutputCP(CP_UTF8);
 
-    Board start_board;
+    SmartBoard start_board;
     start_board.print();
 
     Move e4(4, 1, 4, 3);
-    start_board.print_move(e4);
+    e4.print(start_board.get_board());
 }
