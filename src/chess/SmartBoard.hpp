@@ -14,11 +14,8 @@
 
 class SmartBoard {
     private:
-    const static int zobrist_size = 64;
-
     Board board;
-
-    std::vector<std::bitset<zobrist_size>> hashes_since_irrev;
+    std::vector<std::bitset<ZOBRIST_SIZE>> hashes_since_irrev;
 
     public:
     SmartBoard() {
